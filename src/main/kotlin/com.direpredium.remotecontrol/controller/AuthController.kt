@@ -44,6 +44,7 @@ class AuthController {
 
 	@PostMapping("api/v1/adminRegister")
 	fun adminRegister(@RequestBody adminAuthDto: AdminAuthDto): ResponseEntity<String> {
+		println("adminRegister")
 		return if (adminRepo.existsByUsername(adminAuthDto.username)) {
 			ResponseEntity("Username is taken !!", HttpStatus.BAD_REQUEST)
 		} else {
@@ -58,6 +59,7 @@ class AuthController {
 
 	@PostMapping("api/v1/adminLogin")
 	fun login(@RequestBody adminAuthDto: AdminAuthDto): ResponseEntity<AdminLoginResponseDto> {
+		println("adminLogin")
 		customUserDetailsService.setUserType(UserType.ADMIN)
 		val authentication = authenticationManager.authenticate(
 			UsernamePasswordAuthenticationToken(adminAuthDto.username, adminAuthDto.password)
@@ -83,6 +85,7 @@ class AuthController {
 
 	@PostMapping("api/v1/userRegister")
 	fun userRegister(@RequestBody userRegisterDto: UserRegisterDto): ResponseEntity<SuccessandMessageDto> {
+		println("userRegister")
 		val response = SuccessandMessageDto()
 		if (userRepo.existsByEmail(userRegisterDto.email)) {
 			response.message = "Email is already registered !!"
@@ -103,6 +106,7 @@ class AuthController {
 
 	@PostMapping("api/v1/userLogin")
 	fun userLogin(@RequestBody userLoginDto: UserLoginDto): ResponseEntity<UserLoginResponseDto> {
+		println("userLogin")
 		customUserDetailsService.setUserType(UserType.USER)
 		val authentication = authenticationManager.authenticate(
 			UsernamePasswordAuthenticationToken(userLoginDto.email, userLoginDto.password)
